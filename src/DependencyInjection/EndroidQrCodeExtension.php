@@ -27,12 +27,12 @@ class EndroidQrCodeExtension extends Extension
             throw new \Exception('Configuration not found');
         }
 
-        $config = $this->processConfiguration($configuration, $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yaml');
-
-        $factoryDefinition = $container->getDefinition('Endroid\QrCode\Factory\QrCodeFactory');
-        $factoryDefinition->setArgument(0, $config);
+//        $config = $this->processConfiguration($configuration, $configs);
+//
+//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+//        $loader->load('services.yaml');
+//
+//        $factoryDefinition = $container->getDefinition('Endroid\QrCode\Factory\QrCodeFactory');
+//        $factoryDefinition->setArgument(0, $config);
     }
 }

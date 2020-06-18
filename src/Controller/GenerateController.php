@@ -21,27 +21,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GenerateController
 {
-    private $qrCodeFactory;
-
-    public function __construct(QrCodeFactoryInterface $qrCodeFactory)
-    {
-        $this->qrCodeFactory = $qrCodeFactory;
-    }
+//    private $qrCodeFactory;
+//
+//    public function __construct(QrCodeFactoryInterface $qrCodeFactory)
+//    {
+//        $this->qrCodeFactory = $qrCodeFactory;
+//    }
 
     public function __invoke(Request $request, string $text, string $extension): Response
     {
-        $options = $request->query->all();
-
-        $qrCode = $this->qrCodeFactory->create($text, $options);
-
-        if ($qrCode instanceof QrCode) {
-            try {
-                $qrCode->setWriterByExtension($extension);
-            } catch (UnsupportedExtensionException $e) {
-                throw new NotFoundHttpException("Extension '$extension' is not a supported extension.");
-            }
-        }
-
-        return new QrCodeResponse($qrCode);
+//        $options = $request->query->all();
+//
+//        $qrCode = $this->qrCodeFactory->create($text, $options);
+//
+//        if ($qrCode instanceof QrCode) {
+//            try {
+//                $qrCode->setWriterByExtension($extension);
+//            } catch (UnsupportedExtensionException $e) {
+//                throw new NotFoundHttpException("Extension '$extension' is not a supported extension.");
+//            }
+//        }
+//
+//        return new QrCodeResponse($qrCode);
     }
 }

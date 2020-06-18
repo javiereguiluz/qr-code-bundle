@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Endroid\QrCodeBundle\DependencyInjection;
 
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\LabelAlignment;
+use Endroid\QrCode\Enum\ErrorCorrectionLevel;
+use Endroid\QrCode\Enum\LabelAlignment;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('encoding')->defaultValue('UTF-8')->end()
                 ->scalarNode('error_correction_level')
                     ->validate()
-                        ->ifNotInArray(ErrorCorrectionLevel::toArray())
+                        ->ifNotInArray(ErrorCorrectionLevel::values())
                         ->thenInvalid('Invalid error correction level %s')
                     ->end()
                 ->end()
@@ -70,7 +70,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('label_font_path')->end()
                 ->scalarNode('label_alignment')
                     ->validate()
-                        ->ifNotInArray(LabelAlignment::toArray())
+                        ->ifNotInArray(LabelAlignment::values())
                         ->thenInvalid('Invalid label alignment %s')
                     ->end()
                 ->end()
