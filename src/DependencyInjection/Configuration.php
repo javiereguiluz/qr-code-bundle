@@ -32,10 +32,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('writer')->defaultValue(PngWriter::class)->end()
-                ->arrayNode('options')
+                ->arrayNode('profiles')
+                    ->requiresAtLeastOneElement()
                     ->prototype('array')
-                        ->prototype('scalar')->end();
+                        ->children()
+                            ->scalarNode('writer')->defaultValue(PngWriter::class)->end()
+                            ->arrayNode('options')
+                                    ->prototype('scalar');
 
         return $treeBuilder;
     }

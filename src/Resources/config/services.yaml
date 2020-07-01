@@ -4,7 +4,13 @@ services:
         autoconfigure: true
         public: false
 
-    Endroid\QrCode\BuilderInterface: ~
+    Endroid\QrCodeBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    Endroid\QrCode\Builder\BuilderFactoryInterface: '@Endroid\QrCode\Builder\BuilderFactory'
+    Endroid\QrCode\Builder\BuilderFactory: ~
+
 #    _instanceof:
 #        Endroid\QrCode\Writer\WriterInterface:
 #            tags: ['endroid.qr_code.writer']
@@ -16,9 +22,7 @@ services:
 #    Endroid\QrCode\Writer\PngWriter: ~
 #    Endroid\QrCode\Writer\SvgWriter: ~
 #
-#    Endroid\QrCodeBundle\Controller\:
-#        resource: '../../Controller'
-#        tags: ['controller.service_arguments']
+
 #
 #    Endroid\QrCode\WriterRegistryInterface: '@Endroid\QrCode\WriterRegistry'
 #    Endroid\QrCode\WriterRegistry:

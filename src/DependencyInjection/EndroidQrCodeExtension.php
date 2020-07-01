@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace Endroid\QrCodeBundle\DependencyInjection;
 
-use Endroid\QrCode\Builder;
-use Endroid\QrCode\BuilderInterface;
+use Endroid\QrCode\Builder\BuilderFactoryInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,7 +33,7 @@ class EndroidQrCodeExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-        $factoryDefinition = $container->getDefinition(BuilderInterface::class);
-        $factoryDefinition->addMethodCall('withOptions', $config['options'], true);
+        $factoryDefinition = $container->findDefinition(BuilderFactoryInterface::class);
+        $factoryDefinition->setArgument(0, $config['profiles']);
     }
 }

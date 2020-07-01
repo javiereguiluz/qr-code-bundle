@@ -1,5 +1,5 @@
 qr_code_generate:
-    path: /{text}.{extension}
+    path: /{data}
     requirements:
         text: "[\\w\\W]+"
     defaults:
