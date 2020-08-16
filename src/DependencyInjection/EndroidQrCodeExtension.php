@@ -33,7 +33,7 @@ class EndroidQrCodeExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-        $factoryDefinition = $container->findDefinition(BuilderFactoryInterface::class);
-        $factoryDefinition->setArgument(0, $config['profiles']);
+//        $factoryDefinition = $container->findDefinition(BuilderFactoryInterface::class);
+//        $factoryDefinition->setArgument(0, $config['profiles']);
     }
 }
