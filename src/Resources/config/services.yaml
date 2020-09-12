@@ -23,6 +23,8 @@ services:
 #    Endroid\QrCode\Writer\SvgWriter: ~
 #
 
+    Endroid\QrCode\Builder\BuilderInterface: ~
+
 #
 #    Endroid\QrCode\WriterRegistryInterface: '@Endroid\QrCode\WriterRegistry'
 #    Endroid\QrCode\WriterRegistry:
