@@ -11,12 +11,19 @@ declare(strict_types=1);
 
 namespace Endroid\QrCodeBundle\DependencyInjection;
 
-use Endroid\QrCode\Builder\BuilderFactoryInterface;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Builder\BuilderInterface;
+use Endroid\QrCode\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\LabelAlignment;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 class EndroidQrCodeExtension extends Extension
 {
@@ -33,7 +40,41 @@ class EndroidQrCodeExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-//        $factoryDefinition = $container->findDefinition(BuilderFactoryInterface::class);
-//        $factoryDefinition->setArgument(0, $config['profiles']);
+        foreach ($config as $builderName => $builderConfig) {
+            $this->createBuilderDefinition($builderName, $builderConfig, $container);
+        }
+    }
+
+    private function createBuilderDefinition(string $builderName, array $builderConfig, ContainerBuilder $container): void
+    {
+        $id = sprintf('endroid_qr_code.%s_builder', $builderName);
+
+        $builderDefinition = new Definition(Builder::class);
+
+        foreach ($builderConfig as $option => $value) {
+            switch ($option) {
+                case 'writer':
+                    $value = new Reference($value);
+                    break;
+                case 'encoding':
+                    $value = new Definition(Encoding::class, [$value]);
+                    break;
+                case 'errorCorrectionLevel':
+                    $value = new Definition(ErrorCorrectionLevel::class.'\\'.ucfirst($value));
+                    break;
+                case 'labelAlignment':
+                    $value = new Definition(LabelAlignment::class.'\\'.ucfirst($value));
+                    break;
+                default:
+                    break;
+            }
+            $builderDefinition->addMethodCall($option, [$value]);
+        }
+
+        $container->setDefinition($id, $builderDefinition);
+
+        if (method_exists($container, 'registerAliasForArgument')) {
+            $container->registerAliasForArgument($id, BuilderInterface::class, $builderName.'QrCodeBuilder')->setPublic(false);
+        }
     }
 }
