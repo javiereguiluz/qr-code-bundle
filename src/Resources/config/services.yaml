@@ -15,21 +15,11 @@ services:
 #    Endroid\QrCode\Writer\DebugWriter: ~
 #    Endroid\QrCode\Writer\EpsWriter: ~
     Endroid\QrCode\Writer\PngWriter: ~
-#    Endroid\QrCode\Writer\SvgWriter: ~
-#
+    Endroid\QrCode\Writer\SvgWriter: ~
 
-    Endroid\QrCode\Builder\QrCodeBuilderInterface: '@Endroid\QrCode\Builder\QrCodeBuilder'
-    Endroid\QrCode\Builder\QrCodeBuilder: ~
-
-    Endroid\QrCode\Builder\BuilderInterface: '@Endroid\QrCode\Builder\Builder'
     Endroid\QrCode\Builder\Builder: ~
+    Endroid\QrCode\Builder\BuilderInterface: '@Endroid\QrCode\Builder\Builder'
 
-#
-#    Endroid\QrCode\WriterRegistryInterface: '@Endroid\QrCode\WriterRegistry'
-#    Endroid\QrCode\WriterRegistry:
-#        calls:
-#            - [addWriters, [!tagged endroid.qr_code.writer]]
-#
 #    Endroid\QrCode\Factory\QrCodeFactoryInterface: '@Endroid\QrCode\Factory\QrCodeFactory'
 #    Endroid\QrCode\Factory\QrCodeFactory: ~
 #

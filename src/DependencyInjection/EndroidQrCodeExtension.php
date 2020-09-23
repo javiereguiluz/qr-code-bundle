@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Endroid\QrCodeBundle\DependencyInjection;
 
 use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Builder\BuilderFactoryInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
 use Endroid\QrCode\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
@@ -49,7 +50,7 @@ class EndroidQrCodeExtension extends Extension
     {
         $id = sprintf('endroid_qr_code.%s_builder', $builderName);
 
-        $builderDefinition = new Definition(Builder::class);
+        $builderDefinition = new ChildDefinition(BuilderInterface::class);
 
         foreach ($builderConfig as $option => $value) {
             switch ($option) {
@@ -68,6 +69,7 @@ class EndroidQrCodeExtension extends Extension
                 default:
                     break;
             }
+
             $builderDefinition->addMethodCall($option, [$value]);
         }
 
