@@ -16,7 +16,9 @@ use Endroid\QrCode\Builder\BuilderFactoryInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
 use Endroid\QrCode\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\ErrorCorrectionLevelInterface;
 use Endroid\QrCode\LabelAlignment;
+use Endroid\QrCode\LabelAlignmentInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -61,16 +63,17 @@ class EndroidQrCodeExtension extends Extension
                     $value = new Definition(Encoding::class, [$value]);
                     break;
                 case 'errorCorrectionLevel':
-                    $value = new Definition(ErrorCorrectionLevel::class.'\\'.ucfirst($value));
+                    $value = new Definition('Endroid\\QrCode\\ErrorCorrectionLevel\\'.ucfirst($value));
                     break;
                 case 'labelAlignment':
-                    $value = new Definition(LabelAlignment::class.'\\'.ucfirst($value));
+                    $value = new Definition('Endroid\\QrCode\\LabelAlignment\\'.ucfirst($value));
                     break;
                 default:
                     break;
             }
 
             $builderDefinition->addMethodCall($option, [$value]);
+            $builderDefinition->setPublic(true);
         }
 
         $container->setDefinition($id, $builderDefinition);
