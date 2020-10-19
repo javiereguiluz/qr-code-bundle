@@ -17,5 +17,8 @@ services:
     Endroid\QrCode\Builder\Builder: ~
     Endroid\QrCode\Builder\BuilderInterface: '@Endroid\QrCode\Builder\Builder'
 
+    Endroid\QrCode\Builder\BuilderRegistry: ~
+    Endroid\QrCode\Builder\BuilderRegistryInterface: '@Endroid\QrCode\Builder\BuilderRegistry'
+
 #    Endroid\QrCodeBundle\Twig\QrCodeExtension: ~
 #    Endroid\QrCodeBundle\Twig\QrCodeRuntime: ~

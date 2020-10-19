@@ -1,4 +1,4 @@
 qr_code_generate:
-    path: /{profile}/{data}
+    path: /{name}/{data}
     defaults:
         _controller: Endroid\QrCodeBundle\Controller\GenerateController

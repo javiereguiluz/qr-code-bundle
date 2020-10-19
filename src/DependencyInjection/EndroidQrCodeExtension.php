@@ -14,6 +14,7 @@ namespace Endroid\QrCodeBundle\DependencyInjection;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Builder\BuilderFactoryInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
+use Endroid\QrCode\Builder\BuilderRegistryInterface;
 use Endroid\QrCode\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\ErrorCorrectionLevelInterface;
@@ -43,12 +44,15 @@ class EndroidQrCodeExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
+        $registryDefinition = $container->findDefinition(BuilderRegistryInterface::class);
+
         foreach ($config as $builderName => $builderConfig) {
-            $this->createBuilderDefinition($builderName, $builderConfig, $container);
+            $builderDefinition = $this->createBuilderDefinition($builderName, $builderConfig, $container);
+            $registryDefinition->addMethodCall('addBuilder', [$builderName, $builderDefinition]);
         }
     }
 
-    private function createBuilderDefinition(string $builderName, array $builderConfig, ContainerBuilder $container): void
+    private function createBuilderDefinition(string $builderName, array $builderConfig, ContainerBuilder $container): Definition
     {
         $id = sprintf('endroid_qr_code.%s_builder', $builderName);
 
@@ -81,5 +85,7 @@ class EndroidQrCodeExtension extends Extension
         if (method_exists($container, 'registerAliasForArgument')) {
             $container->registerAliasForArgument($id, BuilderInterface::class, $builderName.'QrCodeBuilder')->setPublic(false);
         }
+
+        return $builderDefinition;
     }
 }
