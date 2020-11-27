@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * (c) Jeroen van den Enden <info@endroid.nl>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Endroid\QrCodeBundle\DependencyInjection;
 
 use Endroid\QrCode\Builder\Builder;
@@ -67,10 +60,10 @@ class EndroidQrCodeExtension extends Extension
                     $value = new Definition(Encoding::class, [$value]);
                     break;
                 case 'errorCorrectionLevel':
-                    $value = new Definition('Endroid\\QrCode\\ErrorCorrectionLevel\\'.ucfirst($value));
+                    $value = new Definition(ErrorCorrectionLevel::class, [$value]);
                     break;
                 case 'labelAlignment':
-                    $value = new Definition('Endroid\\QrCode\\LabelAlignment\\'.ucfirst($value));
+                    $value = new Definition(LabelAlignment::class, [$value]);
                     break;
                 default:
                     break;
