@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GenerateController
 {
-    private BuilderRegistryInterface $builderRegistry;
+    /** @var BuilderRegistryInterface */
+    private $builderRegistry;
 
     public function __construct(BuilderRegistryInterface $builderRegistry)
     {
