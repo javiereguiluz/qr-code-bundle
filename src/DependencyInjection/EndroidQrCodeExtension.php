@@ -8,11 +8,12 @@ use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Builder\BuilderFactoryInterface;
 use Endroid\QrCode\Builder\BuilderInterface;
 use Endroid\QrCode\Builder\BuilderRegistryInterface;
-use Endroid\QrCode\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\ErrorCorrectionLevelInterface;
-use Endroid\QrCode\LabelAlignment;
-use Endroid\QrCode\LabelAlignmentInterface;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelInterface;
+use Endroid\QrCode\Label\Alignment\LabelAlignmentInterface;
+use Endroid\QrCode\Label\Font\Font;
+use Endroid\QrCode\Label\Font\NotoSans;
+use Endroid\QrCode\Writer\RoundBlockSizeMode\RoundBlockSizeModeInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -51,25 +52,40 @@ class EndroidQrCodeExtension extends Extension
 
         $builderDefinition = new ChildDefinition(BuilderInterface::class);
 
-        foreach ($builderConfig as $option => $value) {
-            switch ($option) {
+        $options = [];
+        foreach ($builderConfig as $name => $value) {
+            switch ($name) {
                 case 'writer':
-                    $value = new Reference($value);
+                    $options[$name] = new Reference($value);
                     break;
                 case 'encoding':
-                    $value = new Definition(Encoding::class, [$value]);
+                    $options[$name] = new Definition(Encoding::class, [$value]);
                     break;
                 case 'errorCorrectionLevel':
-                    $value = new Definition(ErrorCorrectionLevel::class, [$value]);
+                    $options[$name] = new Definition(str_replace('Interface', ucfirst($value), ErrorCorrectionLevelInterface::class));
+                    break;
+                case 'roundBlockSizeMode':
+                    $options[$name] = new Definition(str_replace('Interface', ucfirst($value), RoundBlockSizeModeInterface::class));
+                    break;
+                case 'labelFontPath':
+                    $labelFontSize = $builderConfig['labelFontSize'] ?? 16;
+                    $options['labelFont'] = new Definition(Font::class, [$value, $labelFontSize]);
+                    break;
+                case 'labelFontSize':
+                    $labelFontPath = $builderConfig['labelFontPath'] ?? (new NotoSans())->getPath();
+                    $options['labelFont'] = new Definition(Font::class, [$labelFontPath, $value]);
                     break;
                 case 'labelAlignment':
-                    $value = new Definition(LabelAlignment::class, [$value]);
+                    $options[$name] = new Definition(str_replace('Interface', ucfirst($value), LabelAlignmentInterface::class));
                     break;
                 default:
+                    $options[$name] = $value;
                     break;
             }
+        }
 
-            $builderDefinition->addMethodCall($option, [$value]);
+        foreach ($options as $name => $value) {
+            $builderDefinition->addMethodCall($name, [$value]);
             $builderDefinition->setPublic(true);
         }
 

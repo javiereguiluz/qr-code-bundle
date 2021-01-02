@@ -8,11 +8,11 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
-#    Endroid\QrCode\Writer\BinaryWriter: ~
+    Endroid\QrCode\Writer\BinaryWriter: ~
 #    Endroid\QrCode\Writer\DebugWriter: ~
 #    Endroid\QrCode\Writer\EpsWriter: ~
     Endroid\QrCode\Writer\PngWriter: ~
-    Endroid\QrCode\Writer\SvgWriter: ~
+#    Endroid\QrCode\Writer\SvgWriter: ~
 
     Endroid\QrCode\Builder\Builder: ~
     Endroid\QrCode\Builder\BuilderInterface: '@Endroid\QrCode\Builder\Builder'
