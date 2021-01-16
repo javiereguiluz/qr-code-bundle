@@ -20,8 +20,11 @@ class GenerateController
 
     public function __invoke(string $name, string $data): Response
     {
-        $builder = $this->builderRegistry->getBuilder($name);
+        $result = $this->builderRegistry->getBuilder($name)
+            ->data($data)
+            ->build()
+        ;
 
-        return new QrCodeResponse($builder->build());
+        return new QrCodeResponse($result);
     }
 }
