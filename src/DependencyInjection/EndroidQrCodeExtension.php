@@ -13,7 +13,7 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelInterface;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentInterface;
 use Endroid\QrCode\Label\Font\Font;
 use Endroid\QrCode\Label\Font\NotoSans;
-use Endroid\QrCode\Writer\RoundBlockSizeMode\RoundBlockSizeModeInterface;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
